@@ -30,7 +30,6 @@ const Part = (part) => {
 }
 
 const Total = ({ parts }) => {
-  console.log(parts);
   const total = parts.reduce((acc, curr) => {
     return acc += curr.exercises;
   }, 0);
