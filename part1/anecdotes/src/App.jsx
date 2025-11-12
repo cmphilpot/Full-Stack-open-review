@@ -3,6 +3,19 @@ import './App.css'
 
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 
+const MostPopular = ({ anecdotes, votes }) =>{
+  const highestVoteCount = Math.max(...votes);
+  const mostPopularAnecdote = anecdotes[votes.indexOf(highestVoteCount)];
+
+  return (
+    <>
+      <h1>Anecdote with most votes</h1>
+        {mostPopularAnecdote}
+        <p>Has {highestVoteCount} votes</p>  
+    </>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -33,12 +46,21 @@ const App = () => {
   }
 
   return (
-    <div>
-      <p>{anecdotes[selected]}</p>
-      <p>Has {votes[selected]} votes</p>  
-      <Button onClick={handleVoteClick} text='vote'/>
-      <Button onClick={handleNextAnecdoteClick} text='next anecdote'/>
-    </div>
+    <>
+      <div>
+        <h1>Anecdote of the day</h1>
+        <p>{anecdotes[selected]}</p>
+        <p>Has {votes[selected]} votes</p>  
+        <Button onClick={handleVoteClick} text='vote'/>
+        <Button onClick={handleNextAnecdoteClick} text='next anecdote'/>
+
+        <MostPopular 
+          anecdotes={anecdotes}
+          votes={votes}
+        />
+
+      </div>
+    </>
   )
 }
 
