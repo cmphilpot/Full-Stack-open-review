@@ -9,17 +9,24 @@ const Statistics = ({
     average,
     positive
   }) => {
-
-  return (
-    <>
-      <p>Good {good}</p>
-      <p>Neutral {neutral}</p>
-      <p>Bad {bad}</p>
-      <p>All {all}</p>
-      <p>Average {average}</p>
-      <p>Positive {positive}</p>
-    </>
-  )
+    if (all === 0) {
+      return (
+        <>
+          <p>No feedback given</p>
+        </>
+      )
+    } 
+    
+    return (
+      <>
+        <p>Good {good}</p>
+        <p>Neutral {neutral}</p>
+        <p>Bad {bad}</p>
+        <p>All {all}</p>
+        <p>Average {average}</p>
+        <p>Positive {positive}</p>
+      </>
+    )
 }
 
 const App = () => {
