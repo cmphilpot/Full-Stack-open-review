@@ -1,3 +1,46 @@
+const Header = ({ name }) => {
+    return (
+      <>
+        <h1>{name}</h1>
+      </>
+    )
+  }
+
+  const Content = ({ parts }) => {
+    return (
+      <>
+        {parts.map((part) => {
+          return <Part
+                    key={part.id}
+                    name={part.name}
+                    exercises={part.exercises}
+                  />
+        }
+        )}
+      </>
+    )
+  }
+
+  const Part = (part) => {
+    return (
+      <>
+        <p>{part.name} {part.exercises}</p>
+      </>
+    )
+  }
+
+  const Total = ({ parts }) => {
+
+    const total = parts.reduce((acc, curr) => {
+      return acc += curr.exercises
+    }, 0);
+
+    return (
+      <>
+        <p>Number of exercises {total}</p>
+      </>
+    )
+  }
 
 const App = () => {
   const course = {
@@ -21,64 +64,17 @@ const App = () => {
     ]
   }
 
-  const Header = ({name}) => {
-    return (
-      <>
-        <h1>{name}</h1>
-      </>
-    )
-  }
-  
-  const Content = ({parts}) => {
-
-    return (
-      <>
-        {parts.map((part) => {
-          return <Part 
-                    key={part.id}
-                    name={part.name} 
-                    exercises={part.exercises}
-                  />
-        }
-        )}
-      </>
-    )
-  }
-  
-  const Part = (part) => {
-    // console.log(part, 'HERE')
-    return (
-      <>
-        <p>{part.name} {part.exercises}</p>
-      </>
-    )
-  }
-
-  const Total = ({ parts }) => {
-
-    const total = parts.reduce((acc, curr) => {
-      return acc += curr.exercises
-    }, 0);
-   
-
-    return (
-      <>
-        <p>Number of exercises {total}</p>
-      </>
-    )
-  }
-
   return (
     <div>
-      <Header 
-        name={course.name} 
-      />
-   
-      <Content 
-        parts={course.parts} 
+      <Header
+        name={course.name}
       />
 
-      <Total 
+      <Content
+        parts={course.parts}
+      />
+
+      <Total
         parts={course.parts}
       />
     </div>
