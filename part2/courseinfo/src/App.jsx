@@ -41,28 +41,45 @@ const Total = ({ parts }) => {
   )
 }
 
-const Course = ({ course }) => {
+const Course = ({ name, parts }) => {
+
   return (
     <>
       <div>
        <Header 
-         name={course.name} 
+         name={name} 
        />
    
        <Content 
-         parts={course.parts} 
+         parts={parts} 
        />
 
        <Total 
-         parts={course.parts}
+         parts={parts}
        />
      </div>
     </>
   )
 }
 
+const Courses = ({ courses }) => {
+  return (
+    <>
+      {courses.map((course) => {
+        return <Course 
+                  key={course.id}
+                  name={course.name} 
+                  parts={course.parts}
+                />
+      }
+      )}
+    </>
+  )
+}
+
 const App = () => {
-  const course = {
+  const courses = [ 
+    {
     id: 1,
     name: 'Half Stack application development',
     parts: [
@@ -82,9 +99,26 @@ const App = () => {
         exercises: 14
       }
     ]
+  },
+  {
+    id: 2,
+    name: 'Node.js',
+    parts: [
+      {
+        name: 'Routing',
+        exercises: 3,
+        id: 1
+      },
+      {
+        name: 'Middlewares',
+        exercises: 7,
+        id: 2
+      }
+    ]
   }
+]
 
-  return <Course course={course} />
+  return <Courses courses={courses} />
 }
 
 export default App
