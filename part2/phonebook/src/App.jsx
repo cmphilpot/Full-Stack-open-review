@@ -41,6 +41,22 @@ const App = () => {
       })
   }
 
+  const handleDeleteOf = (id) => {
+
+    if (!window.confirm(`Delete ${name}?`)) {
+      return; // Stop if the user cancels
+    }
+
+    personService
+      .deletePerson(id)
+      .then(() => {
+        setPersons(persons.filter(person => person.id !== id));
+      })
+      .catch(error => {
+        console.error('Deleteion failed:', error)
+      })
+  }
+
   const personsToShow = persons.filter(person => {
     return person.name.toLowerCase().startsWith(newFilter.toLowerCase());
     }
@@ -85,6 +101,7 @@ const App = () => {
 
       <Persons 
         personsToShow={personsToShow}
+        handleDelete={handleDeleteOf}
       />
     </div>
   )
