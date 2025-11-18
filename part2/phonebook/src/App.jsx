@@ -5,7 +5,7 @@ import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 
 const App = () => {
-  const [persons, setPersons] = useState([]) 
+  const [persons, setPersons] = useState([]); 
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [newFilter, setFilter] = useState('');
@@ -17,6 +17,13 @@ const App = () => {
       setPersons(initialPersons);
     })
   }, [])
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    /* TODO */
+
+    /* addPerson reference removed from PersonForm */
+  }
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -41,9 +48,41 @@ const App = () => {
       })
   }
 
-  const handleDeleteOf = (id) => {
+  const handleNumberUpdateOf = (id) => {
+    const person = persons.find(person => person.id === id);
 
-    if (!window.confirm(`Delete ${name}?`)) {
+   if (!window.confirm(`${person.name} is already added to phonebook,
+                        replace the old number with a new one?`
+                      )
+      ){
+        return; // Stop if the user cancels
+      }
+
+      const updatedPerson = {
+        ...person,
+        number: newNumber
+      }
+
+    personService
+      .update(id, updatedPerson)
+      .then(returnedPerson => {
+        setPersons(persons.map(person => {
+          return person.id === returnedPerson.id ? returnedPerson : person;
+          }
+        ));
+        setNewName('')
+        setNewNumber('')
+      })
+      .catch(error => {
+        console.error('Updated failed:', error)
+      })
+
+  }
+
+  const handleDeleteOf = (id) => {
+    const person = persons.find(person => person.id === id);
+
+    if (!window.confirm(`Delete ${person.name}?`)) {
       return; // Stop if the user cancels
     }
 
@@ -90,11 +129,12 @@ const App = () => {
       <h3>Add a new contact</h3>
 
       <PersonForm 
-        addPerson={addPerson}  
+        handleSubmit={handleSubmit}  
         newName={newName}
         handleAddPerson={handleAddPerson}
         newNumber={newNumber}
         handleAddNumber={handleAddNumber}
+        handleNumberUpdateOf={handleNumberUpdateOf}
       />
 
       <h3>Numbers</h3>
